@@ -10,6 +10,16 @@ const fs = require('fs').promises;
 const app = express();
 const PORT = process.env.PORT || 3005;
 
+// create previews directory if it doesn't exist
+const previewsDir = path.join(__dirname, 'previews');
+fs.access(previewsDir, fs.constants.F_OK)
+  .catch(() => fs.mkdir(previewsDir));
+
+// create uploads directory if it doesn't exist
+const uploadsDir = path.join(__dirname, 'uploads');
+fs.access(uploadsDir, fs.constants.F_OK)
+  .catch(() => fs.mkdir(uploadsDir));
+
 app.use(cors());
 
 app.use((req, res, next) => {
