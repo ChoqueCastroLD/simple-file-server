@@ -126,6 +126,16 @@ app.get('/download/:filename', async (req, res) => {
   }
 });
 
+app.get('/list', async (req, res) => {
+    const files = await fs.readdir(path.join(__dirname, 'uploads'));
+    res.json(files);
+});
+
+app.get('/list/previews', async (req, res) => {
+    const files = await fs.readdir(path.join(__dirname, 'previews'));
+    res.json(files);
+});
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
