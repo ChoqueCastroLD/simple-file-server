@@ -1,0 +1,7 @@
+services:
+  simple-file-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3005:3005"

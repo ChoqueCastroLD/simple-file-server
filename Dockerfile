@@ -17,6 +17,6 @@ RUN bun install --production
 FROM base AS release
 COPY --from=install /app/ .
 
-USER bun
+USER bun_file_server
 EXPOSE 3005/tcp
 ENTRYPOINT [ "bun", "src/index.ts" ]
