@@ -56,14 +56,14 @@ const app = new Elysia()
     .get('/download/:filename', ({ params: { filename } }) => {
         return Bun.file(join(CONFIG.UPLOADS_FOLDER, filename));
     })
-    .post('/upload', async ({ body: { file } }) => {
-        const filePath = join(CONFIG.UPLOADS_FOLDER, file.name);
+    .post('/upload', async ({ body: { file }, query: { filename } }) => {
+        const filePath = join(CONFIG.UPLOADS_FOLDER, filename || file.name);
         const fileExists = await Bun.file(filePath).exists();
         if (fileExists) {
             throw new Error('File already exists');
         }
         await Bun.write(filePath, file);
-        return { filename: file.name };
+        return { filename: filename || file.name };
     }, {
         body: t.Object({
             file: t.File({
@@ -71,6 +71,9 @@ const app = new Elysia()
                 minSize: '1k', // 1kb
             })
         }),
+        query: t.Optional(t.Object({
+            filename: t.String()
+        })),
         response: t.Object({
             filename: t.String()
         })
