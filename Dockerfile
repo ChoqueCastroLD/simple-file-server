@@ -12,6 +12,10 @@ FROM base AS install
 
 COPY ./package.json ./bun.lockb ./
 COPY ./src ./src
+RUN mkdir -p /app/uploads && \
+    chown -R bun:bun /app/uploads
+RUN mkdir -p /app/previews && \
+    chown -R bun:bun /app/previews
 RUN bun install --production
 
 FROM base AS release

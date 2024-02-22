@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  bun:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3005:3005"
+    volumes:
+      - bun_uploads:/app/uploads
+
+volumes:
+  bun_uploads:
