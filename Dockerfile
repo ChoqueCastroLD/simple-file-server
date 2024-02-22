@@ -1,5 +1,5 @@
 FROM oven/bun:latest as base
-WORKDIR /usr/src/app
+WORKDIR /app
 
 FROM base AS install
 # ARG NODE_VERSION=20
@@ -15,7 +15,7 @@ COPY ./src ./src
 RUN bun install --production
 
 FROM base AS release
-COPY --from=install /usr/src/app/ .
+COPY --from=install /app/ .
 
 USER bun
 EXPOSE 3005/tcp
