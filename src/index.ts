@@ -67,7 +67,7 @@ const app = new Elysia()
     }, {
         body: t.Object({
             file: t.File({
-                maxSize: '10m', // 10mb
+                maxSize: '100m', // 10mb
                 minSize: '1k', // 1kb
             })
         }),
