@@ -44,10 +44,28 @@ const app = new Elysia()
             }
             const originalFileBuffer = await originalFile.arrayBuffer();
             await sharp(originalFileBuffer)
-                .jpeg({ quality: 1 })
+                .blur(10)
+                .jpeg({
+                    quality: 1,
+                    chromaSubsampling: '4:4:4',
+                    trellisQuantisation: true,
+                    overshootDeringing: true,
+                    optimizeScans: true,
+                    quantisationTable: 2,
+                    force: true,
+                    optimiseCoding: true,
+                    mozjpeg: true,
+                    optimiseScans: true,
+                    optimizeCoding: true,
+                    progressive: true,
+                })
                 .toFile(previewFilePath);
             set.status = 201;
-            throw new Error('Preview created');
+            const newFile = await Bun.file(previewFilePath);
+            if (await newFile.exists()) {
+                return newFile;
+            }
+            throw new Error('Error creating preview');
         } catch (error: any) {
             console.error(error);
             return { error: error.message };
