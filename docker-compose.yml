@@ -9,6 +9,8 @@ services:
       - "3005:3005"
     volumes:
       - bun_uploads:/app/uploads
+      - bun_previews:/app/previews
 
 volumes:
   bun_uploads:
+  bun_previews:
