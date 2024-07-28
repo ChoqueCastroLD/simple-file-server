@@ -7,7 +7,12 @@ import { CONFIG } from "./utils/config";
 
 
 const app = new Elysia()
-    .use(cors())
+    .use(cors({
+        origin: true,
+        methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+        allowedHeaders: '*',
+        credentials: true
+    }))
     .onError(({ code, error }) => {
         console.log(code, error);
         return {
@@ -15,7 +20,7 @@ const app = new Elysia()
             error: error.message,
         }
     })
-	.onResponse(({ request, path, set }) => {
+	.onAfterResponse(({ request, path, set }) => {
         console.log(`[${request.method}] ${path} ${set.status}`);
 	})
     .get('/uploads/*', ({ path }) => {

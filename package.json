@@ -16,8 +16,8 @@
     "sharp"
   ],
   "dependencies": {
-    "@elysiajs/cors": "^0.8.0",
-    "elysia": "^0.8.17",
-    "sharp": "^0.33.2"
+    "@elysiajs/cors": "^1.1.0",
+    "elysia": "^1.1.4",
+    "sharp": "^0.33.4"
   }
 }
