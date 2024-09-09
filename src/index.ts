@@ -11,7 +11,7 @@ const app = new Elysia()
         origin: true,
         methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
         allowedHeaders: '*',
-        credentials: true
+        credentials: false
     }))
     .onError(({ code, error }) => {
         console.log(code, error);
