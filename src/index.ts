@@ -7,16 +7,15 @@ import { CONFIG } from "./utils/config";
 
 
 const app = new Elysia()
-    .use(cors())
-    .onAfterHandle(({ request, set }) => {
-        // Only process CORS requests
-        if (request.method !== "OPTIONS") return;
-        const allowHeader = set.headers["Access-Control-Allow-Headers"];
-        if (allowHeader === "*") {
-            set.headers["Access-Control-Allow-Headers"] =
-                request.headers.get("Access-Control-Request-Headers") ?? "";
-        }
-    })
+    .use(cors({
+        origin: true,
+        methods: "*",
+        allowedHeaders: ["content-type"],
+        exposeHeaders: "*",
+        credentials: true,
+        maxAge: 50000,
+        preflight: true,
+    }))
     .onError(({ code, error }) => {
         console.log(code, error);
         return {
