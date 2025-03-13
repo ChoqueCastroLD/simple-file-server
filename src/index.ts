@@ -8,12 +8,16 @@ import { CONFIG } from "./utils/config";
 
 const app = new Elysia()
     .use(cors({
-        origin: true,
-        methods: "*",
-        allowedHeaders: ["content-type"],
-        exposeHeaders: "*",
+        origin: [
+            "http://localhost:4321",
+            "https://senshimanga.capibaratraductor.com",
+            "https://sotf-mods.com",
+            "https://taikutsutl.capibaratraductor.com",
+            /^https:\/\/([a-z0-9.-]+)?capibaratraductor\.com$/
+        ],
+        methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
         credentials: true,
-        maxAge: 50000,
+        maxAge: 60 * 60,
         preflight: true,
     }))
     .onError(({ code, error }) => {
