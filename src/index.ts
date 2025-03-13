@@ -8,6 +8,15 @@ import { CONFIG } from "./utils/config";
 
 const app = new Elysia()
     .use(cors())
+    .onAfterHandle(({ request, set }) => {
+        // Only process CORS requests
+        if (request.method !== "OPTIONS") return;
+        const allowHeader = set.headers["Access-Control-Allow-Headers"];
+        if (allowHeader === "*") {
+            set.headers["Access-Control-Allow-Headers"] =
+                request.headers.get("Access-Control-Request-Headers") ?? "";
+        }
+    })
     .onError(({ code, error }) => {
         console.log(code, error);
         return {
@@ -15,9 +24,9 @@ const app = new Elysia()
             error: error.message,
         }
     })
-	.onAfterResponse(({ request, path, set }) => {
+    .onAfterResponse(({ request, path, set }) => {
         console.log(`[${request.method}] ${path} ${set.status}`);
-	})
+    })
     .get('/uploads/*', ({ path }) => {
         const filePath = path.split('/').slice(2).join('/');
         return Bun.file(join(CONFIG.UPLOADS_FOLDER, filePath));
