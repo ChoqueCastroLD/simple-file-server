@@ -7,12 +7,7 @@ import { CONFIG } from "./utils/config";
 
 
 const app = new Elysia()
-    .use(cors({
-        origin: true,
-        methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-        allowedHeaders: '*',
-        credentials: false
-    }))
+    .use(cors())
     .onError(({ code, error }) => {
         console.log(code, error);
         return {
