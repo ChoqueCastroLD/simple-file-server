@@ -70,26 +70,8 @@ const app = new Elysia()
       return { error: error.message };
     }
   })
-  .get("/download/:filename", async ({ params: { filename } }) => {
-    const file = await Bun.file(join(CONFIG.UPLOADS_FOLDER, filename));
-    if (file.type.startsWith("image/")) {
-      const webpFilePath = join(
-        CONFIG.UPLOADS_FOLDER,
-        filename.replace(/\.[^/.]+$/, ".webp")
-      );
-      const webpFileExists = await Bun.file(webpFilePath).exists();
-      if (!webpFileExists) {
-        await sharp(await file.arrayBuffer())
-          .webp({
-            quality: 100,
-            lossless: true,
-            effort: 6,
-          })
-          .toFile(webpFilePath);
-      }
-      return Bun.file(webpFilePath);
-    }
-    return file;
+  .get("/download/:filename", ({ params: { filename } }) => {
+    return Bun.file(join(CONFIG.UPLOADS_FOLDER, filename));
   })
   .post(
     "/upload",
