@@ -78,17 +78,16 @@ const app = new Elysia()
         filename.replace(/\.[^/.]+$/, ".webp")
       );
       const webpFileExists = await Bun.file(webpFilePath).exists();
-      if (webpFileExists) {
-        return Bun.file(webpFilePath);
+      if (!webpFileExists) {
+        await sharp(await file.arrayBuffer())
+          .webp({
+            quality: 100,
+            lossless: true,
+            effort: 6,
+          })
+          .toFile(webpFilePath);
       }
-      const webpFile = await sharp(await file.arrayBuffer())
-        .webp({
-          quality: 100,
-          lossless: true,
-          effort: 6,
-        })
-        .toFile(webpFilePath);
-      return webpFile;
+      return Bun.file(webpFilePath);
     }
     return file;
   })
